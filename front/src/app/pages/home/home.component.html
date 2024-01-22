@@ -1,5 +1,17 @@
-<div class="center">
-  <img src="/assets/logo_p6.png" alt="logo" />
-  <h1>Welcome to MDD</h1>
-  <button mat-raised-button color="primary" (click)="start()">Commencer</button>
+<div class="mt-10 mx-auto">
+  <div class="mx-auto max-w-xl flex flex-col items-center">
+    <img
+      src="/assets/logo_p6.png"
+      class="max-w-[70%] md:max-w-full"
+      alt="logo"
+    />
+    <div class="flex flex-col md:flex-row justify-around items-center w-[80%]">
+      <button type="button" class="btn-outlined">
+        <a class="" routerLink="/auth/login">Se connecter</a>
+      </button>
+      <button type="button" class="btn-outlined">
+        <a class="" routerLink="/auth/register">S'inscrire</a>
+      </button>
+    </div>
+  </div>
 </div>
