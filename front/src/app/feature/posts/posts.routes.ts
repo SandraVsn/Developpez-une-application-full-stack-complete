@@ -8,6 +8,7 @@ export const POSTS_ROUTES: Routes = [
         { path: '', pathMatch: 'full', title: "Posts", component: ListComponent },
         { path: 'create', title: "Post creation", component: FormComponent },
         { path: ':id', title: "Post detail", component: DetailComponent },
+        { path: '**', redirectTo: '404' }
     ]}
     
   ];
