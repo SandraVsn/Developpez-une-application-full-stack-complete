@@ -1,1 +1,52 @@
-<p>login works!</p>
+<header class="flex items-center border-b border-b-gray-500">
+  <img
+    class="w-[100px] md:w-[140px]"
+    src="../../../assets/logo_p6.png"
+    alt=""
+  />
+</header>
+<a class="m-5" mat-icon-button (click)="goBack()">
+  <mat-icon>arrow_back</mat-icon>
+</a>
+<div class="flex flex-col items-center">
+  <h1>Se connecter</h1>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    class="flex flex-col items-center mt-5"
+  >
+    <mat-form-field appearance="outline">
+      <mat-label>Adresse e-mail</mat-label>
+      <input matInput placeholder="Adresse e-mail" formControlName="email" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Mot de passe</mat-label>
+      <input
+        [type]="hide ? 'password' : 'text'"
+        matInput
+        placeholder="Mot de passe"
+        formControlName="password"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Se connecter
+    </button>
+    @if(onError){
+    <span class="error ml2">An error occurred</span>
+    }
+  </form>
+</div>

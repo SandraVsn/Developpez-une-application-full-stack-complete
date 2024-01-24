@@ -26,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
+  public hide = true;
   public onError = false;
 
   public form = this.fb.group({
