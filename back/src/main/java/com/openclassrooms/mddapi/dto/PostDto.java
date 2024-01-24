@@ -19,8 +19,8 @@ public class PostDto {
 
     private String content;
 
-    private User user;
+    private String userName;
 
-    private Topic topic;
+    private String topicName;
 
 }
