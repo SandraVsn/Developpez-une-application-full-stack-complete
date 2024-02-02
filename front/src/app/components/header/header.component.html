@@ -20,24 +20,12 @@
       backdropClass="mobileMenuBackdrop"
       class="mobilePanelMenu"
     >
-      <div class="mobileLinksContainer">
-        <a
-          mat-menu-item
-          class="mobileMenuItem"
-          routerLink="/posts"
-          routerLinkActive="activeLink"
-        >
-          Articles
-        </a>
-        <a
-          mat-menu-item
-          class="mobileMenuItem"
-          routerLink="/topics"
-          routerLinkActive="activeLink"
-        >
+      <div class="flex flex-col items-center">
+        <a routerLink="/posts" routerLinkActive="text-violet-600"> Articles </a>
+        <a routerLink="/topics" class="my-2" routerLinkActive="text-violet-600">
           Thèmes
         </a>
-        <a mat-menu-item class="mobileMenuItem" routerLink="/profile">
+        <a class="" routerLink="/profile">
           <svg
             class="rounded-full bg-gray-300 p-2"
             width="40"
@@ -75,7 +63,7 @@
       @for(route of ROUTES; track route){
       <a
         class="flex pr-10"
-        routerLinkActive="activeLink"
+        routerLinkActive="text-violet-600"
         [routerLink]="route.path"
       >
         {{ route.label }}</a
