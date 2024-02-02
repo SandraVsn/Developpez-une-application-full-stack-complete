@@ -22,9 +22,9 @@ import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.service.AuthService;
 import com.openclassrooms.mddapi.service.PostService;
 import com.openclassrooms.mddapi.service.TopicService;
-import com.openclassrooms.mddapi.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,16 +36,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class PostController {
 
     private PostService postService;
-    private UserService userService;
+    private AuthService authService;
     private TopicService topicService;
 
     private ModelMapper modelMapper;
 
     @Autowired
-    public PostController(PostService postService, UserService userService, TopicService topicService,
+    public PostController(PostService postService, AuthService authService, TopicService topicService,
             ModelMapper modelMapper) {
         this.postService = postService;
-        this.userService = userService;
+        this.authService = authService;
         this.topicService = topicService;
         this.modelMapper = modelMapper;
     }
@@ -82,16 +82,13 @@ public class PostController {
     @Operation(summary = "Creates a new Post")
     @PostMapping()
     public ResponseEntity<?> createPost(
-            // Principal principal,
+            Principal principal,
             @RequestBody CreatePostDto createPostDto) {
-        // TODO: use Principal to get and set User
-        // User user = authService.getMe(principal.getName());
-        // post.setUser_id(user.getId());
-        Optional<User> user = userService.getUser(1L);
+        User user = authService.getMe(principal.getName());
         Optional<Topic> topic = topicService.getTopic(createPostDto.getTopicId());
 
         Post post = modelMapper.map(createPostDto, Post.class);
-        post.setUser(user.get());
+        post.setUser(user);
         post.setTopic(topic.get());
 
         Post savedPost = postService.savePost(post);
