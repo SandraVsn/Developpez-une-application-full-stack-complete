@@ -15,7 +15,7 @@ public class UserDto {
 
     private LocalDateTime updatedAt;
 
-    private String name;
+    private String userName;
 
     private String email;
 
