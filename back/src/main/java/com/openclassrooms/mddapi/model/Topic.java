@@ -28,8 +28,12 @@ public class Topic {
     private Long id;
 
     @NonNull
-    @Size(max = 40)
+    @Size(max = 2000)
     private String name;
+    
+    @NonNull
+    @Size(max = 40)
+    private String description;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
