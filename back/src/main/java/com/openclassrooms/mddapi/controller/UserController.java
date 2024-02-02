@@ -46,5 +46,28 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
+    @PostMapping("subscribe/{topicId}")
+    public ResponseEntity<?> subscribe(Principal principal, @PathVariable("topicId") String topicId) {
+        try {
+            User user = authService.getMe(principal.getName());
+            User updatedUser = this.userService.subscribe(user, Long.parseLong(topicId));
+
+            return ResponseEntity.ok().body(modelMapper.map(updatedUser, UserDto.class));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("unsubscribe/{topicId}")
+    public ResponseEntity<?> unsubscribe(Principal principal, @PathVariable("topicId") String topicId) {
+        try {
+            User user = authService.getMe(principal.getName());
+            User updatedUser = this.userService.unsubscribe(user, Long.parseLong(topicId));
+
+            return ResponseEntity.ok().body(modelMapper.map(updatedUser, UserDto.class));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 }
