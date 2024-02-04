@@ -7,36 +7,9 @@ import { CreatePostDto } from '../interfaces/createPostDto.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class PostApiService {
+export class CommentApiService {
 
-  private posts: Post[] = [
-    {
-    id: 1,
-    updatedAt: new Date(),
-    title: "test",
-    content: "test",
-    userName: "test", 
-    topicName: "test" 
-    },
-    {
-      id: 2,
-      updatedAt: new Date(),
-      title: "test2",
-      content: "test2",
-      userName: "test2", 
-      topicName: "test2" 
-    }, 
-    {
-    id: 3,
-    updatedAt: new Date(),
-    title: "test3",
-    content: "test3",
-    userName: "test3", 
-    topicName: "test3" 
-    }
-  ]
-
-  private url = 'http://localhost:9000/api/post';
+  private url = 'http://localhost:9000/api/comment';
 
   constructor(private httpClient: HttpClient) {
   }

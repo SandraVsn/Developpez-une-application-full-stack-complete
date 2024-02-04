@@ -25,9 +25,11 @@
         <a routerLink="/topics" class="my-2" routerLinkActive="text-violet-600">
           Thèmes
         </a>
-        <a class="" routerLink="/profile">
+        <a class="" routerLink="/me" routerLinkActive #rla="routerLinkActive">
           <svg
-            class="rounded-full bg-gray-300 p-2"
+            class="rounded-full bg-{{
+              rla.isActive ? 'violet' : 'gray'
+            }}-300 p-2"
             width="40"
             height="40"
             viewBox="0 0 27 30"
@@ -70,9 +72,9 @@
       >
       }
 
-      <a class="" routerLink="/profile" routerLinkActive="profileLink">
+      <a class="" routerLink="/me" routerLinkActive #rla="routerLinkActive">
         <svg
-          class="rounded-full bg-gray-300 p-2"
+          class="rounded-full bg-{{ rla.isActive ? 'violet' : 'gray' }}-300 p-2"
           width="40"
           height="40"
           viewBox="0 0 27 30"

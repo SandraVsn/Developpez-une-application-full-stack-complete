@@ -1,1 +1,69 @@
-<p>detail works!</p>
+<app-header></app-header>
+@if(onError){
+<span>An error occurred</span>
+} @else if (!loaded) {
+<span>Loading, please wait</span>
+} @else {
+<div class="flex flex-col items-center">
+  <p class="p-3 text-2xl font-semibold">Profil utilisateur</p>
+  <form
+    [formGroup]="form"
+    class="flex flex-col items-center"
+    (ngSubmit)="submit()"
+  >
+    <div class="flex flex-col items-center">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="userName" [value]="user.userName" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          type="email"
+          [value]="user.email"
+        />
+      </mat-form-field>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Sauvegarder
+    </button>
+    @if (updated) {
+    <p class="text-green-700 italic pt-2">
+      Votre profil a bien été mis à jour !
+    </p>
+    }
+  </form>
+
+  <button mat-button class="logout" label="Se DV" (click)="logout()">
+    Se déconnecter
+  </button>
+  <div class="relative w-full">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full mx-5 border-t border-gray-300"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <span class="bg-white p-3 text-2xl font-semibold leading-6">
+        Abonnements
+      </span>
+    </div>
+  </div>
+  <div class="w-full grid grid-cols-1 md:grid-cols-2">
+    @for (topic of topics; track topic.id) {
+    <div class="rounded-lg bg-gray-100 mx-2 my-1 md:m-5 p-3">
+      <p class="text-lg font-semibold line-clamp-1">{{ topic.name }}</p>
+      <p class="line-clamp-3">{{ topic.description }}</p>
+      <button mat-flat-button color="primary" (click)="unsubscribe(topic.id)">
+        Se désabonner
+      </button>
+    </div>
+    }
+  </div>
+</div>
+}

@@ -51,6 +51,7 @@ export class LoginComponent {
     const loginRequest = this.form.value as LoginRequest;
     this.authService.login(loginRequest).subscribe({
       next: (response: AuthSuccess) => {
+        console.log(response.token)
         localStorage.setItem('token', response.token);
         this.authService.me().subscribe((user: User) => {
           this.sessionService.logIn(user);
@@ -60,6 +61,7 @@ export class LoginComponent {
       },
       error: (err) => {
         this.onError = true;
+        console.log(err);
       },
     });
   }

@@ -17,7 +17,7 @@ export class ListComponent {
 
   constructor(private topicApiService: TopicApiService){}
 
-  public topics: Topic[] = [];
+  public topics!: Topic[];
   public loaded = false;
   public onError = false;
 

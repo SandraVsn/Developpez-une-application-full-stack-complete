@@ -66,6 +66,7 @@ export class RegisterComponent {
       },
       error: (err) => {
         this.onError = true;
+        console.log("REGISTER", err)
       },
     });
   }

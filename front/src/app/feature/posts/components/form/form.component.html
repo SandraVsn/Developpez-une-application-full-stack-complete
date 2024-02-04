@@ -1,1 +1,47 @@
-<p>form works!</p>
+<app-header></app-header>
+@if(onError){
+<span>An error occurred</span>
+} @else {
+<div>
+  <a class="m-5" mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+
+  <div class="flex flex-col items-center w-full">
+    <p class="p-3 text-2xl font-semibold text-center">
+      Créer un nouvel article
+    </p>
+    <form
+      class="flex flex-col items-center w-full p-5"
+      [formGroup]="postForm"
+      (ngSubmit)="submit()"
+    >
+      <mat-form-field class="w-full md:w-1/2" appearance="outline">
+        <mat-label>Sélectionnez un thème</mat-label>
+        <mat-select formControlName="topic">
+          @for (topic of topics; track topic.id) {
+          <mat-option [value]="topic.id">{{ topic.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full md:w-1/2" appearance="outline">
+        <mat-label>Titre de l'article</mat-label>
+        <input matInput formControlName="title" />
+      </mat-form-field>
+      <mat-form-field class="w-full md:w-1/2" appearance="outline">
+        <mat-label>Contenu de l'article</mat-label>
+        <textarea matNativeControl formControlName="content"></textarea>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="submit-btn"
+        [disabled]="postForm.invalid"
+      >
+        Créer
+      </button>
+    </form>
+  </div>
+</div>
+}
