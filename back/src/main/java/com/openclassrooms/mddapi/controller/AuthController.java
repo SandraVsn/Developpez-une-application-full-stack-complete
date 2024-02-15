@@ -70,8 +70,12 @@ public class AuthController {
 	@PostMapping("login")
 
 	public TokenDto login(Authentication authentication, @RequestBody LoginDto loginDto) {
-	    User user = modelMapper.map(loginDto, User.class);
-		return new TokenDto(jwtService.generateToken(user));
+	    User user = authService.login(loginDto.getEmail(), loginDto.getPassword());
+	    if(user != null) {	    	
+	    	return new TokenDto(jwtService.generateToken(user));
+	    } else {
+	    	return null;
+	    }
 	}	
 
 	/* Endpoint to get details of the current logged-in User

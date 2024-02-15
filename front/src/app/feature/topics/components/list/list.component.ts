@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TopicApiService } from '../../services/topic-api.service';
 import { Topic } from '../../interfaces/topic.interface';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-list',
@@ -15,9 +16,9 @@ import { Topic } from '../../interfaces/topic.interface';
 })
 export class ListComponent {
 
-  constructor(private topicApiService: TopicApiService){}
+  constructor(private topicApiService: TopicApiService, private userService: UserService){}
 
-  public topics: Topic[] = [];
+  public topics!: Topic[];
   public loaded = false;
   public onError = false;
 
@@ -29,6 +30,10 @@ export class ListComponent {
       },
       error: () => this.onError = true,
     });
+  }
+
+  subscribe(topicId: number){
+    this.userService.subscribeToTopic(topicId).subscribe()
   }
 
 }

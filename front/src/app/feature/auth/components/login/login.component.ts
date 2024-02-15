@@ -16,6 +16,7 @@ import { SessionService } from '../../../../services/session.service';
 import { AuthSuccess } from '../../interfaces/authSuccess.interface';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { User } from '../../../../interfaces/user.interface';
+import { retry } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -60,6 +61,8 @@ export class LoginComponent {
       },
       error: (err) => {
         this.onError = true;
+        localStorage.removeItem('token');
+        retry(1)
       },
     });
   }

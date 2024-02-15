@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthSuccess } from '../interfaces/authSuccess.interface';
 import { RegisterRequest } from '../interfaces/registerRequest.interface';
 import { LoginRequest } from '../interfaces/loginRequest.interface';
