@@ -3,10 +3,19 @@ import { HeaderComponent } from '../../../../components/header/header.component'
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PostApiService } from '../../services/post-api.service';
-import { AuthService } from '../../../auth/services/auth.service';
+import { CommentApiService } from '../../services/comment-api.service';
+import { Location } from '@angular/common';
+import { Post } from '../../interfaces/post.interface';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-detail',
@@ -16,74 +25,58 @@ import { AuthService } from '../../../auth/services/auth.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule, 
     FormsModule,
     ReactiveFormsModule,
   ],
   templateUrl: './detail.component.html',
 })
 export class DetailComponent {
-
   constructor(
-    // private router: Router,
-    private fb: FormBuilder, 
-    // private postApiService: PostApiService,
-    // private authService: AuthService
-    //private commentApiService: CommentApi
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router, 
+    private postApiService: PostApiService, 
+    private commentApiService: CommentApiService,
+    private location: Location
   ) {}
 
   public loaded = false;
   public onError = false;
+  public postId!: number;
+  public post!: Post;
+  public comments: Comment[] = []
+
   public form: FormGroup = this.fb.group({
     description: ['', [Validators.required, Validators.minLength(3)]],
-  });;
-
- 
+  });
 
   ngOnInit(): void {
-    // this.authService.me().subscribe({
-    //   next: (user) => {
-    //     this.user = user;
-    //     this.topics = user.topics;
-    //     this.loaded = true;
-    //     this.form = this.fb.group({
-    //       userName: [
-    //         user.userName,
-    //         [Validators.required, Validators.minLength(3)],
-    //       ],
-    //       email: [user.email, [Validators.required, Validators.email]],
-    //     });
-    //   },
-    //   error: () => (this.onError = true),
-    // });
+    this.route.paramMap.subscribe({
+      next: (params) => {
+        const id = params.get('id');
+        if (id) {
+          this.postApiService.getOne(id).subscribe({
+            next: (post) => {
+              this.post = post
+              this.loaded = true
+            }
+          })
+          this.commentApiService.getAllByPostId(id).subscribe({
+
+          })
+          
+        } else {
+          this.router.navigate(['/posts']);
+        }
+      },
+      error: () => (this.onError = true),
+    });
   }
 
-  unsubscribe(topicId: number) {
-    // this.userService.unsubscribeFromTopic(topicId).subscribe({
-    //   next: (user) => {
-    //     this.topics = user.topics;
-    //     this.updated = true;
-    //     setTimeout(() => {
-    //       this.updated = false;
-    //     }, 3000);
-    //   },
-    //   error: () => (this.onError = true),
-    // });
-  }
+  submit() {}
 
-  submit() {
-    // this.userService.update(this.form.value).subscribe({
-    //   next: (user) => {
-    //     this.user = user;
-    //   },
-    //   error: () => (this.onError = true),
-    // });
+  goBack(){
+    this.location.back();
   }
-
-  logout() {
-    // this.sessionService.logOut();
-    // this.router.navigate(['/']);
-  }
-
 }
-
-
