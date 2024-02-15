@@ -10,9 +10,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TopicApiService } from '../../feature/topics/services/topic-api.service';
 import { Topic } from '../../feature/topics/interfaces/topic.interface';
-import { Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
