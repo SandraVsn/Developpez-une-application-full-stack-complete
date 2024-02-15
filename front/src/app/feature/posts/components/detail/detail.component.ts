@@ -16,6 +16,7 @@ import { CommentApiService } from '../../services/comment-api.service';
 import { Location } from '@angular/common';
 import { Post } from '../../interfaces/post.interface';
 import { MatIconModule } from '@angular/material/icon';
+import { Comment } from '../../interfaces/comment.interface';
 
 @Component({
   selector: 'app-detail',
@@ -43,12 +44,11 @@ export class DetailComponent {
 
   public loaded = false;
   public onError = false;
-  public postId!: number;
   public post!: Post;
   public comments: Comment[] = []
 
   public form: FormGroup = this.fb.group({
-    description: ['', [Validators.required, Validators.minLength(3)]],
+    content: ['', [Validators.required, Validators.minLength(3)]],
   });
 
   ngOnInit(): void {
@@ -63,7 +63,10 @@ export class DetailComponent {
             }
           })
           this.commentApiService.getAllByPostId(id).subscribe({
-
+            next: (comments) => {
+              this.comments = comments
+            }, 
+            error: () => this.onError = true
           })
           
         } else {
@@ -74,7 +77,17 @@ export class DetailComponent {
     });
   }
 
-  submit() {}
+  submit() {
+    const commentDto = {
+      content: this.form.value.content, 
+      postId: this.post.id
+    }
+    this.commentApiService.create(commentDto).subscribe({
+      next: (comments) => {
+        this.comments = comments
+      }
+    })
+  }
 
   goBack(){
     this.location.back();
