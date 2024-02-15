@@ -14,8 +14,8 @@ export class CommentApiService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getAll(): Observable<Post[]> {
-    return this.httpClient.get<Post[]>(this.url);
+  public getAllByPostId(postId: string): Observable<Post[]> {
+    return this.httpClient.get<Post[]>(`${this.url}/post/${postId}`);
   }
 
   public getOne(id: string): Observable<Post> {
