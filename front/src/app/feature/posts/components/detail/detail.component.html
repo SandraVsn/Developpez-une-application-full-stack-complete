@@ -32,11 +32,17 @@
   @if(comments.length === 0){
   <p>Soyez le premier à donner votre avis !</p>
   }@else { @for(comment of comments; track comment.id){
-  <p>{{ comment.userName }}</p>
-  <p>{{ comment.content }}</p>
+  <div class="flex flex-row-reverse md:flex-row">
+    <p class="min-w-[20%] text-right pe-4 self-end md:self-start">
+      {{ comment.userName }}
+    </p>
+    <p class="rounded-md md:bg-gray-200 md:min-h-20 p-2">
+      {{ comment.content }}
+    </p>
+  </div>
   } }
-  <form class="comment__form" [formGroup]="form" (ngSubmit)="submit()">
-    <mat-form-field appearance="outline">
+  <form class="flex w-full" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field class="w-full" appearance="outline">
       <textarea
         matNativeControl
         formControlName="content"
@@ -45,7 +51,7 @@
     </mat-form-field>
     <button type="submit" class="submit">
       <svg
-        class="icon"
+        class="m-5 -mt-0"
         width="49"
         height="49"
         viewBox="0 0 49 49"
