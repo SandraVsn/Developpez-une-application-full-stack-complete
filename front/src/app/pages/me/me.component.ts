@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from '../../interfaces/user.interface';
 import { Router } from '@angular/router';
-import { SessionService } from '../../services/session.service';
 import { UserService } from '../../services/user.service';
 import {
   FormBuilder,
@@ -42,7 +41,6 @@ export class MeComponent {
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private sessionService: SessionService,
     private fb: FormBuilder
   ) {}
 
@@ -87,7 +85,7 @@ export class MeComponent {
   }
 
   logout() {
-    this.sessionService.logOut();
+    localStorage.removeItem('token');
     this.router.navigate(['/']);
   }
 }

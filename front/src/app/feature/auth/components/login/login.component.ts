@@ -12,7 +12,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
-import { SessionService } from '../../../../services/session.service';
 import { AuthSuccess } from '../../interfaces/authSuccess.interface';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { User } from '../../../../interfaces/user.interface';
@@ -46,7 +45,6 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private location: Location,
-    private sessionService: SessionService
   ) {}
 
   public submit(): void {
@@ -55,7 +53,6 @@ export class LoginComponent {
       next: (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
         this.authService.me().subscribe((user: User) => {
-          this.sessionService.logIn(user);
           this.router.navigate(['/posts']);
         });
         this.router.navigate(['/posts']);

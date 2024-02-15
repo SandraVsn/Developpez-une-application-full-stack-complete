@@ -15,7 +15,6 @@ import { RegisterRequest } from '../../interfaces/registerRequest.interface';
 import { AuthService } from '../../services/auth.service';
 import { AuthSuccess } from '../../interfaces/authSuccess.interface';
 import { User } from '../../../../interfaces/user.interface';
-import { SessionService } from '../../../../services/session.service';
 
 @Component({
   selector: 'app-register',
@@ -51,7 +50,6 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private router: Router,
     private location: Location,
-    private sessionService: SessionService
   ) {}
 
   public submit(): void {
@@ -59,8 +57,7 @@ export class RegisterComponent {
     this.authService.register(registerRequest).subscribe({
       next: (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
-        this.authService.me().subscribe((user: User) => {
-          this.sessionService.logIn(user);
+        this.authService.me().subscribe(() => {
           this.router.navigate(['/posts']);
         });
       },
