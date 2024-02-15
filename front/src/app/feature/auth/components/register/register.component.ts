@@ -64,9 +64,8 @@ export class RegisterComponent {
           this.router.navigate(['/posts']);
         });
       },
-      error: (err) => {
+      error: () => {
         this.onError = true;
-        console.log("REGISTER", err)
       },
     });
   }

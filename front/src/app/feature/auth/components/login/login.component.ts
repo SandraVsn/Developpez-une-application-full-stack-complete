@@ -16,6 +16,7 @@ import { SessionService } from '../../../../services/session.service';
 import { AuthSuccess } from '../../interfaces/authSuccess.interface';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { User } from '../../../../interfaces/user.interface';
+import { retry } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -51,7 +52,6 @@ export class LoginComponent {
     const loginRequest = this.form.value as LoginRequest;
     this.authService.login(loginRequest).subscribe({
       next: (response: AuthSuccess) => {
-        console.log(response.token)
         localStorage.setItem('token', response.token);
         this.authService.me().subscribe((user: User) => {
           this.sessionService.logIn(user);
@@ -61,7 +61,8 @@ export class LoginComponent {
       },
       error: (err) => {
         this.onError = true;
-        console.log(err);
+        localStorage.removeItem('token');
+        retry(1)
       },
     });
   }

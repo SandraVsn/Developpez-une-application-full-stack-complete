@@ -18,7 +18,7 @@
     >
       <mat-form-field class="w-full md:w-1/2" appearance="outline">
         <mat-label>Sélectionnez un thème</mat-label>
-        <mat-select formControlName="topic">
+        <mat-select formControlName="topicId">
           @for (topic of topics; track topic.id) {
           <mat-option [value]="topic.id">{{ topic.name }}</mat-option>
           }

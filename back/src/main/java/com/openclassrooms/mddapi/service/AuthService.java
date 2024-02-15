@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.model.User;
@@ -13,10 +14,12 @@ import lombok.Data;
 public class AuthService {
 
 	private UserRepository userRepository;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public AuthService(UserRepository userRepository) {
+	public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 		
 	public User getMe(String email) {
@@ -29,6 +32,17 @@ public class AuthService {
 			throw new IllegalArgumentException("User already exists");
 		}
 		return userRepository.save(user);
+	}
+	
+	public User login(String email, String password) {
+        User user = userRepository.findByEmail(email);
+
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user; 
+        } else {
+            return null;
+        }
+	
 	}
 	
 }

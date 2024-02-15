@@ -42,7 +42,7 @@ export class FormComponent {
   public postForm = this.fb.group({
     title: ['', [Validators.required, Validators.minLength(3)]],
     content: ['', [Validators.required, Validators.minLength(3)]],
-    topic: [0, [Validators.required, Validators.maxLength(1)]],
+    topicId: [0, [Validators.required, Validators.maxLength(1)]],
   });
   public onError: boolean = false;
 

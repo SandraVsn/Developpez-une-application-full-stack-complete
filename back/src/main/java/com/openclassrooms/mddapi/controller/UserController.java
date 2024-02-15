@@ -62,6 +62,8 @@ public class UserController {
     @PutMapping()
     public ResponseEntity<?> update(Principal principal, @RequestBody UpdateUserDto updateUserDto) {
         try {
+        	System.out.println(principal);
+        	System.out.println(updateUserDto);
             User user = authService.getMe(principal.getName());
             user.setEmail(updateUserDto.getEmail());
             user.setUserName(updateUserDto.getUserName());
