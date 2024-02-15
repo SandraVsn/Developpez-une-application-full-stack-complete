@@ -46,7 +46,11 @@
       Se connecter
     </button>
     @if(onError){
-    <span class="">An error occurred</span>
+    <span class="text-red-500 italic mt-2">Une erreur est survenue !</span>
+    } @if(badCredentials){
+    <span class="text-red-500 italic mt-2"
+      >L'email ou le mot de passe est incorrect !</span
+    >
     }
   </form>
 </div>

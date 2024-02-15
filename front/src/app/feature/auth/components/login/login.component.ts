@@ -34,6 +34,7 @@ import { retry } from 'rxjs';
 export class LoginComponent {
   public hide = true;
   public onError = false;
+  public badCredentials = false;
 
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -59,10 +60,14 @@ export class LoginComponent {
         });
         this.router.navigate(['/posts']);
       },
-      error: (err) => {
-        this.onError = true;
-        localStorage.removeItem('token');
-        retry(1)
+      error: ({ error }) => {
+        if (error === 'Bad credentials') {
+          this.badCredentials = true;
+        } else {
+          this.onError = true;
+          localStorage.removeItem('token');
+          retry(1);
+        }
       },
     });
   }

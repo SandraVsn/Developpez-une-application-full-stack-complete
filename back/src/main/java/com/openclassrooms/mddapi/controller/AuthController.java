@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -50,15 +51,13 @@ public class AuthController {
 	 */
 	@Operation(summary = "Creates and log in new User, returns the jwt token")
 	@PostMapping("register")
-	public TokenDto register(@RequestBody CreateUserDto createUserDto) {
+	public ResponseEntity<?> register(@RequestBody CreateUserDto createUserDto) {
 		User user = modelMapper.map(createUserDto, User.class);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		User createdUser = authService.register(user);
-		if(createdUser != null) {
-			return new TokenDto(jwtService.generateToken(createdUser));
-		} else {
-			return null;
-		}
+		
+		return ResponseEntity.ok().body(new TokenDto(jwtService.generateToken(createdUser)));
+		
 	}
 	
 	/* Endpoint to log in a User and return the JWT token
@@ -69,12 +68,12 @@ public class AuthController {
 	@Operation(summary = "Log in User and returns the jwt token")
 	@PostMapping("login")
 
-	public TokenDto login(Authentication authentication, @RequestBody LoginDto loginDto) {
+	public ResponseEntity<?> login(Authentication authentication, @RequestBody LoginDto loginDto) {
 	    User user = authService.login(loginDto.getEmail(), loginDto.getPassword());
 	    if(user != null) {	    	
-	    	return new TokenDto(jwtService.generateToken(user));
+			return ResponseEntity.ok().body(new TokenDto(jwtService.generateToken(user)));
 	    } else {
-	    	return null;
+	    	return ResponseEntity.badRequest().body("Bad credentials");
 	    }
 	}	
 
@@ -84,9 +83,9 @@ public class AuthController {
 	 */
 	@Operation(summary = "Get current logged in User")
 	@GetMapping("me")
-	public Object getMe(Principal principal){
+	public ResponseEntity<?> getMe(Principal principal){
 		User user = authService.getMe(principal.getName());
-		return modelMapper.map(user, UserDto.class);
+		return  ResponseEntity.ok().body(modelMapper.map(user, UserDto.class));
 	}
 	
 }
