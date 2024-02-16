@@ -17,7 +17,7 @@ export class UserService {
   }
 
   public update(updateUserDto: UpdateUser): Observable<User> {
-    return this.httpClient.post<User>(this.url, updateUserDto);
+    return this.httpClient.put<User>(this.url, updateUserDto);
   }
 
   public subscribeToTopic(topicId: number): Observable<User> {
