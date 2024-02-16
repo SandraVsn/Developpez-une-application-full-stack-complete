@@ -80,9 +80,6 @@ public class CommentController {
         comment.setPost(post.get());
         comment.setId(null);
         
-    	System.out.println(comment);
-
-
         commentService.saveComment(comment);
         
 	   	Iterable<Comment> comments = commentService.getAllCommentsByPostId(createCommentDto.getPostId());

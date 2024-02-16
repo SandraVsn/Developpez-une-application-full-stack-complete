@@ -19,7 +19,6 @@ export class CommentApiService {
   }
 
   public create(comment: CreateCommentDto): Observable<Comment[]> {
-    console.log(comment)
     return this.httpClient.post<Comment[]>(this.url, comment);
   }
 }
