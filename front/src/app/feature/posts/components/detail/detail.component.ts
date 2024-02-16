@@ -26,7 +26,7 @@ import { Comment } from '../../interfaces/comment.interface';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule, 
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
   ],
@@ -36,8 +36,8 @@ export class DetailComponent {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router, 
-    private postApiService: PostApiService, 
+    private router: Router,
+    private postApiService: PostApiService,
     private commentApiService: CommentApiService,
     private location: Location
   ) {}
@@ -45,7 +45,7 @@ export class DetailComponent {
   public loaded = false;
   public onError = false;
   public post!: Post;
-  public comments: Comment[] = []
+  public comments: Comment[] = [];
 
   public form: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.minLength(3)]],
@@ -58,17 +58,16 @@ export class DetailComponent {
         if (id) {
           this.postApiService.getOne(id).subscribe({
             next: (post) => {
-              this.post = post
-              this.loaded = true
-            }
-          })
+              this.post = post;
+              this.loaded = true;
+            },
+          });
           this.commentApiService.getAllByPostId(id).subscribe({
             next: (comments) => {
-              this.comments = comments
-            }, 
-            error: () => this.onError = true
-          })
-          
+              this.comments = comments;
+            },
+            error: () => (this.onError = true),
+          });
         } else {
           this.router.navigate(['/posts']);
         }
@@ -79,17 +78,18 @@ export class DetailComponent {
 
   submit() {
     const commentDto = {
-      content: this.form.value.content, 
-      postId: this.post.id
-    }
+      content: this.form.value.content,
+      postId: this.post.id,
+    };
     this.commentApiService.create(commentDto).subscribe({
       next: (comments) => {
-        this.comments = comments
-      }
-    })
+        this.comments = comments;
+        this.form.reset();
+      },
+    });
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
   }
 }
