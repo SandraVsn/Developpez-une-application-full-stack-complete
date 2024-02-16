@@ -1,25 +1,72 @@
-# P6-Full-Stack-reseau-dev
+# Develop a Full-stack application
 
-## Front
+ MDD (DevWorld) is the next social network for developers. This version of the application is the Minimal Viable Product (MVP), allowing users to subscribe to programming topics, view a chronological feed of articles, and actively engage through article creation and comments.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+## Installation and Execution
 
-Don't forget to install your node_modules before starting (`npm install`).
+### Clone the repository to your local machine:
+    ```bash
+    git clone https://github.com/SandraVsn/Developpez-une-application-full-stack-complete
+    ```
 
-### Development server
+## Database
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Installation
 
-### Build
+1. Ensure Docker and Docker Compose are installed on your machine.
+2. Create a .env file with the necessary variables for the successful launch of the database.
+3. Launch the MySQL container with the following command in the project directory:
+    ```bash
+    docker-compose up --build
+    ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+   This will start a MySQL container based on the configuration defined in the `docker-compose.yml`.
 
-### Where to start
+## Run Back-end
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+1. Navigate to the project directory:
+    ```bash
+    cd back
+    ```
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+2. Install dependencies:
+    ```bash
+    mvn clean install
+    ```
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get ride of it.
+3. Run API :
+    ```bash
+    mvn spring-boot:run
+    ```
 
-Good luck!
+## Run Front-end
+
+1. Navigate to the project directory:
+    ```bash
+    cd front
+    ```
+
+2. Install dependencies:
+    ```bash
+    npm i
+    ```
+
+2. Run front-end :
+    ```bash
+    npm run start
+    ```
+
+Application is available at http://localhost:4200
+
+##  Technologies
+
+- Spring Boot 3.1.5
+- Angular 17
+- REST API
+- MySQL
+- Docker
+- Spring Data JPA
+- Swagger
+- Spring Security with Jwt and Bcrypt
+- Angular Material
+- Tailwind css
