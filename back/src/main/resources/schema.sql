@@ -47,19 +47,19 @@ ALTER TABLE `subscription` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ALTER TABLE `subscription` ADD FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`);
 
 INSERT INTO users (id, user_name, email, password)
-SELECT 1, 'HackWiz', 'HackWiz@mail.com', 'password' 
+SELECT 1, 'HackWiz', 'HackWiz@mail.com', '$2a$10$8p7DVGvxRW3Sgd.xuG8pbe1d/OaQdXcnitZhScBzLkkA9O46qPtjW' 
 WHERE NOT EXISTS (
     SELECT 1 FROM users WHERE email = 'HackWiz@mail.com'
 );
 
 INSERT INTO users (id, user_name, email, password)
-SELECT 2, 'CodeCraftMaster', 'CodeCraftMaster@mail.com', 'password' 
+SELECT 2, 'CodeCraftMaster', 'CodeCraftMaster@mail.com', '$2a$10$8p7DVGvxRW3Sgd.xuG8pbe1d/OaQdXcnitZhScBzLkkA9O46qPtjW' 
 WHERE NOT EXISTS (
     SELECT 1 FROM users WHERE email = 'CodeCraftMaster@mail.com'
 );
 
 INSERT INTO users (id, user_name, email, password)
-SELECT 3, 'DevGeniusHub', 'DevGeniusHub@mail.com', 'password' 
+SELECT 3, 'DevGeniusHub', 'DevGeniusHub@mail.com', '$2a$10$8p7DVGvxRW3Sgd.xuG8pbe1d/OaQdXcnitZhScBzLkkA9O46qPtjW' 
 WHERE NOT EXISTS (
     SELECT 1 FROM users WHERE email = 'DevGeniusHub@mail.com'
 );
