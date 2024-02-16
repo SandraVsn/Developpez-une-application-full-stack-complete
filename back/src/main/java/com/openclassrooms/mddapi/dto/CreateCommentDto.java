@@ -3,10 +3,10 @@ package com.openclassrooms.mddapi.dto;
 import lombok.Data;
 
 @Data
-public class CommentDto {
-
+public class CreateCommentDto {
+	
     private String content;
 
-    private String userName;
+    private Long postId;
 
 }

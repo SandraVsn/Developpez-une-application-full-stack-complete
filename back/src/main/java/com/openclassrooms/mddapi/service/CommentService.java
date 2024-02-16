@@ -22,7 +22,7 @@ public class CommentService {
     }
 
     public Iterable<Comment> getAllCommentsByPostId(final Long postId) {
-        return commentRepository.findAllByPostId(postId);
+        return commentRepository.findAllByPostIdOrderByUpdatedAtAsc(postId);
     }
 
     public Optional<Comment> getComment(final Long id) {

@@ -16,10 +16,12 @@ export class HomeComponent {
   ) {}
 
   ngOnInit(): void {
-    this.authService.me().subscribe({
-      next: () => {
-        this.router.navigate(['/posts']);
-      },
-    });
+    // this.authService.me().subscribe({
+    //   next: (user) => {
+    //     if(user){
+    //       this.router.navigate(['/posts']);
+    //     }
+    //   },
+    // });
   }
 }

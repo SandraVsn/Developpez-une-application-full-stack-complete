@@ -6,6 +6,6 @@ import com.openclassrooms.mddapi.model.Comment;
 
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 
-    public Iterable<Comment> findAllByPostId(Long postId);
+    public Iterable<Comment> findAllByPostIdOrderByUpdatedAtAsc(Long postId);
 
 }
