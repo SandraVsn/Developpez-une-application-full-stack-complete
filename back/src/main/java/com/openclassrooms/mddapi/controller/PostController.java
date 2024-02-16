@@ -90,6 +90,7 @@ public class PostController {
         Post post = modelMapper.map(createPostDto, Post.class);
         post.setUser(user);
         post.setTopic(topic.get());
+        post.setId(null);
 
         Post savedPost = postService.savePost(post);
 
