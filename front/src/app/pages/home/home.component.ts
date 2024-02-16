@@ -10,18 +10,14 @@ import { AuthService } from '../../feature/auth/services/auth.service';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-  ) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    // this.authService.me().subscribe({
-    //   next: (user) => {
-    //     if(user){
-    //       this.router.navigate(['/posts']);
-    //     }
-    //   },
-    // });
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.authService.me().subscribe({
+        next: () => this.router.navigate(['/posts'])
+      });
+    }
   }
 }
