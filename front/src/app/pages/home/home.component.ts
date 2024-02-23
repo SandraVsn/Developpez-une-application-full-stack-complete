@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../feature/auth/services/auth.service';
@@ -11,7 +11,8 @@ import { take } from 'rxjs';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  constructor(private router: Router, private authService: AuthService) {}
+  private readonly router = inject(Router)
+  private readonly authService = inject(AuthService)
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
