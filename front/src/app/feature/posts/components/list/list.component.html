@@ -1,9 +1,5 @@
 <app-header></app-header>
-@if(onError){
-<span>An error occurred</span>
-} @else if (!loaded) {
-<span>Loading, please wait</span>
-} @else {
+@if(posts$ | async; as posts) {
 <div>
   <div class="flex flex-col md:flex-row items-center md:justify-between m-5">
     <a
@@ -34,4 +30,8 @@
     }
   </div>
 </div>
+} @else if(onError){
+<span>An error occurred</span>
+} @else() {
+<span>Loading, please wait</span>
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '../../../../components/header/header.component';
 import { PostApiService } from '../../services/post-api.service';
 import { Post } from '../../interfaces/post.interface';
@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Observable, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -14,19 +15,16 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './list.component.html',
 })
 export class ListComponent {
-  constructor(private postApiService: PostApiService) {}
+  
+  private readonly postApiService = inject(PostApiService) 
 
-  public posts: Post[] = [];
-  public loaded = false;
+  public posts$!: Observable<Post[] | undefined>;
   public onError = false;
 
   ngOnInit(): void {
-    this.postApiService.getAll().subscribe({
-      next: (posts) => {
-        this.posts = posts;
-        this.loaded = true;
-      },
-      error: () => this.onError = true,
-    });
+    this.posts$ = this.postApiService.getAll().pipe(catchError(()=>{
+      this.onError = true;
+      return of(undefined);
+    }));
   }
 }
