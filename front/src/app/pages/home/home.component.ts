@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../feature/auth/services/auth.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,10 @@ export class HomeComponent {
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      this.authService.me().subscribe({
-        next: () => this.router.navigate(['/posts'])
+      this.authService.me().pipe(take(1)).subscribe({
+        next: () => {
+          this.router.navigate(['/posts'])
+        }
       });
     }
   }
