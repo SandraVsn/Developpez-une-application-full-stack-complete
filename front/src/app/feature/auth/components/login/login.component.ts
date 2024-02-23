@@ -15,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 import { AuthSuccess } from '../../interfaces/authSuccess.interface';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { User } from '../../../../interfaces/user.interface';
-import { retry } from 'rxjs';
+import { retry, take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +49,7 @@ export class LoginComponent {
 
   public submit(): void {
     const loginRequest = this.form.value as LoginRequest;
-    this.authService.login(loginRequest).subscribe({
+    this.authService.login(loginRequest).pipe(take(1)).subscribe({
       next: (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
         this.authService.me().subscribe((user: User) => {
