@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RegisterRequest } from '../../interfaces/registerRequest.interface';
 import { AuthService } from '../../services/auth.service';
 import { AuthSuccess } from '../../interfaces/authSuccess.interface';
-import { User } from '../../../../interfaces/user.interface';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -41,7 +41,8 @@ export class RegisterComponent {
     ],
     password: [
       '',
-      [Validators.required, Validators.min(3), Validators.max(40)],
+      // Au moins une minuscule, majuscule, chiffre, caractère spécial, pas d'espace, mini 8 caractères
+      [Validators.required, Validators.min(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+!=*])(?=\S+$).{8,}$/),], 
     ],
   });
 
@@ -54,7 +55,7 @@ export class RegisterComponent {
 
   public submit(): void {
     const registerRequest = this.form.value as RegisterRequest;
-    this.authService.register(registerRequest).subscribe({
+    this.authService.register(registerRequest).pipe(take(1)).subscribe({
       next: (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);
         this.authService.me().subscribe(() => {
