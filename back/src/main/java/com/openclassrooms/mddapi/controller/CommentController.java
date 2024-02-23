@@ -18,11 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.dto.CreateCommentDto;
-import com.openclassrooms.mddapi.dto.CreatePostDto;
-import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.model.Comment;
 import com.openclassrooms.mddapi.model.Post;
-import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.AuthService;
 import com.openclassrooms.mddapi.service.CommentService;

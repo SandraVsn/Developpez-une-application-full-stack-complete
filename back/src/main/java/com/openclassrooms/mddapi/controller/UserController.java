@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.mddapi.dto.CreateUserDto;
 import com.openclassrooms.mddapi.dto.UpdateUserDto;
 import com.openclassrooms.mddapi.dto.UserDto;
 import com.openclassrooms.mddapi.model.User;
@@ -59,6 +58,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Update a User")
     @PutMapping()
     public ResponseEntity<?> update(Principal principal, @RequestBody UpdateUserDto updateUserDto) {
         try {
@@ -73,6 +73,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Subscribe to a topic")
     @PostMapping("subscribe/{topicId}")
     public ResponseEntity<?> subscribe(Principal principal, @PathVariable("topicId") String topicId) {
         try {
@@ -85,6 +86,7 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Unsubscribe from a topic")
     @DeleteMapping("unsubscribe/{topicId}")
     public ResponseEntity<?> unsubscribe(Principal principal, @PathVariable("topicId") String topicId) {
         try {
