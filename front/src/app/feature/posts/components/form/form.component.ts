@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Topic } from '../../../topics/interfaces/topic.interface';
 import {
   FormBuilder,
@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { Observable, catchError, of, take } from 'rxjs';
 
 @Component({
   selector: 'app-form',
@@ -38,35 +39,42 @@ import { MatOptionModule } from '@angular/material/core';
   templateUrl: './form.component.html',
 })
 export class FormComponent {
-  public topics: Topic[] = [];
-  public postForm = this.fb.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
-    content: ['', [Validators.required, Validators.minLength(3)]],
-    topicId: [0, [Validators.required, Validators.maxLength(1)]],
-  });
-  public onError: boolean = false;
+    private readonly topicApiService = inject(TopicApiService)
+    public readonly fb = inject(FormBuilder)
+    private readonly router = inject(Router)
+    private readonly postApiService = inject(PostApiService)
+    private readonly location = inject(Location)
 
-  constructor(
-    private topicApiService: TopicApiService,
-    public fb: FormBuilder,
-    private router: Router,
-    private postApiService: PostApiService,
-    private location: Location
-  ) {}
+    public topics$!: Observable<Topic[] | undefined>;
+    public postForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      content: ['', [Validators.required, Validators.minLength(3)]],
+      topicId: [0, [Validators.required, Validators.maxLength(1)]],
+    });
+    public onError: boolean = false;
 
   ngOnInit(): void {
-    this.topicApiService.getAll().subscribe((topics) => {
-      this.topics = topics;
-    });
+    this.topics$ = this.topicApiService.getAll().pipe(
+      catchError(() => {
+        this.onError = true;
+        return of(undefined);
+      })
+    );
   }
 
   public submit() {
-    this.postApiService.create(this.postForm.value as CreatePostDto).subscribe({
+    this.postApiService.create(this.postForm.value as CreatePostDto).pipe(
+      take(1),
+      catchError(() => {
+        this.onError = true;
+        return of(undefined);
+      })
+    ).subscribe({
       next: () => {
-        this.router.navigate(['/posts']);
+        this.router.navigate(['/posts'])
       },
-      error: () => (this.onError = true),
-    });
+      error: () => this.onError = true
+    })
   }
 
   public goBack(): void {
