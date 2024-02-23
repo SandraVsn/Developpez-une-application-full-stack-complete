@@ -1,9 +1,5 @@
 <app-header></app-header>
-@if(onError){
-<span>An error occurred</span>
-} @else if (!loaded) {
-<span>Loading, please wait</span>
-} @else {
+@if(post$ | async; as post) {
 <div class="p-5 md:p-12">
   <div class="flex items-center">
     <a class="-mt-3 -ms-4 md:-ms-12" mat-icon-button (click)="goBack()">
@@ -29,9 +25,8 @@
       </span>
     </div>
   </div>
-  @if(comments.length === 0){
-  <p>Soyez le premier à donner votre avis !</p>
-  }@else { @for(comment of comments; track comment.id){
+  @if(comments$ | async ; as comments) { @for(comment of comments; track
+  comment.id){
   <div class="flex flex-row-reverse md:flex-row my-1 md:me-[52px]">
     <p class="min-w-[20%] text-right pe-4 self-end md:self-start">
       {{ comment.userName }}
@@ -40,8 +35,10 @@
       {{ comment.content }}
     </p>
   </div>
-  } }
-  <form class="flex w-full" [formGroup]="form" (ngSubmit)="submit()">
+  } }@else {
+  <p>Soyez le premier à donner votre avis !</p>
+  }
+  <form class="flex w-full" [formGroup]="form" (ngSubmit)="submit(post.id)">
     <mat-form-field class="w-full" appearance="outline">
       <textarea
         style="width: calc(100% - 50px)"
@@ -80,4 +77,8 @@
     </button>
   </form>
 </div>
+} @else if(onError){
+<span>An error occurred</span>
+}@else {
+<span>Loading, please wait</span>
 }
