@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { User } from '../../interfaces/user.interface';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -15,11 +15,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HeaderComponent } from '../../components/header/header.component';
 import { AuthService } from '../../feature/auth/services/auth.service';
+import { Observable, catchError, of, take, tap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-me',
   standalone: true,
   imports: [
+    CommonModule,
     HeaderComponent,
     MatButtonModule,
     MatFormFieldModule,
@@ -30,26 +33,25 @@ import { AuthService } from '../../feature/auth/services/auth.service';
   templateUrl: './me.component.html',
 })
 export class MeComponent {
+
+  private readonly router = inject(Router)
+  private readonly authService = inject(AuthService)
+  private readonly userService = inject(UserService)
+  private readonly fb = inject(FormBuilder)
+
   public loaded = false;
   public onError = false;
-  public user!: User;
+  public user$!: Observable<User | undefined>;
   public topics!: Topic[];
   public updated: boolean = false;
   public form!: FormGroup;
 
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private userService: UserService,
-    private fb: FormBuilder
-  ) {}
+
 
   ngOnInit(): void {
-    this.authService.me().subscribe({
-      next: (user) => {
-        this.user = user;
-        this.topics = user.topics;
-        this.loaded = true;
+    this.user$ = this.authService.me().pipe(
+      tap(user =>{
+        this.topics = user.topics
         this.form = this.fb.group({
           userName: [
             user.userName,
@@ -57,13 +59,16 @@ export class MeComponent {
           ],
           email: [user.email, [Validators.required, Validators.email]],
         });
-      },
-      error: () => (this.onError = true),
-    });
+      }),
+      catchError(() => {
+        this.onError = true;
+        return of(undefined);
+      })
+    )
   }
 
   unsubscribe(topicId: number) {
-    this.userService.unsubscribeFromTopic(topicId).subscribe({
+    this.userService.unsubscribeFromTopic(topicId).pipe(take(1)).subscribe({
       next: (user) => {
         this.topics = user.topics;
         this.updated = true;
@@ -76,12 +81,7 @@ export class MeComponent {
   }
 
   submit() {
-    this.userService.update(this.form.value).subscribe({
-      next: (user) => {
-        this.user = user;
-      },
-      error: () => (this.onError = true),
-    });
+   this.user$ = this.userService.update(this.form.value).pipe(take(1));
   }
 
   logout() {

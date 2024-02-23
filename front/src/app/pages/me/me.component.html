@@ -1,9 +1,5 @@
 <app-header></app-header>
-@if(onError){
-<span>An error occurred</span>
-} @else if (!loaded) {
-<span>Loading, please wait</span>
-} @else {
+@if(user$ | async; as user) {
 <div class="flex flex-col items-center">
   <p class="p-3 text-2xl font-semibold">Profil utilisateur</p>
   <form
@@ -66,4 +62,8 @@
     }
   </div>
 </div>
+} @else if(onError){
+<span>An error occurred</span>
+} @else () {
+<span>Loading, please wait</span>
 }
